@@ -26,3 +26,46 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+/instrucoes.*
+
+# .NET
+## Core .NET and Build Outputs
+[Bb]in/
+[Oo]bj/
+[Log]s/
+*.binlog
+
+## Visual Studio Tooling & Cache
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Visual Studio Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+
+## JetBrains Rider / Resharper
+.idea/
+*.sln.DotSettings.user
+
+## User Secrets & Local Configuration
+*appsettings.Development.json
+*appsettings.Local.json
+secrets.json
+.microsoft/usersecrets/
+
+## Publish and Package Outputs
+*.userprefs
+*.mdf
+*.ldf
+*.pidb
+*.seed
+*.sublime-project
+*.sublime-workspace
+node_modules/
+
