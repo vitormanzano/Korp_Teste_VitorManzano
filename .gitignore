@@ -69,3 +69,4 @@ secrets.json
 *.sublime-workspace
 node_modules/
 
+/PLANEJAMENTO.md
