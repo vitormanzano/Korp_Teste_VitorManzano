@@ -1,1 +1,88 @@
-/* You can add global styles to this file, and also import other style files */
+/* Korp NF — design tokens e estilos base das telas de Produtos e Notas Fiscais */
+
+:root {
+  --bg: #f3f5f1;
+  --surface: #ffffff;
+  --surface-sunken: #eceeea;
+  --border: #dce1db;
+  --text: #17211d;
+  --text-muted: #57645c;
+  --accent: #1f6f5c;
+  --accent-strong: #14493d;
+  --accent-soft: #e3f0eb;
+  --status-open: #a56a00;
+  --status-open-soft: #f7ecd6;
+  --status-closed: #1f6f5c;
+  --status-closed-soft: #e3f0eb;
+  --danger: #b3261e;
+  --danger-soft: #f8e2e0;
+  --focus-ring: #1f6f5c;
+
+  --font-display:
+    ui-serif, 'Iowan Old Style', 'Palatino Linotype', Palatino, 'URW Palladio', Georgia, serif;
+  --font-body:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  --radius: 6px;
+  --shadow-card: 0 1px 2px rgba(23, 33, 29, 0.06), 0 1px 1px rgba(23, 33, 29, 0.04);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #141814;
+    --surface: #1d2420;
+    --surface-sunken: #232b26;
+    --border: #333d36;
+    --text: #e9ece7;
+    --text-muted: #9aa79e;
+    --accent: #4faf95;
+    --accent-strong: #7bcab3;
+    --accent-soft: #1d3831;
+    --status-open: #e0a030;
+    --status-open-soft: #3a2f18;
+    --status-closed: #4faf95;
+    --status-closed-soft: #1d3831;
+    --danger: #e5766e;
+    --danger-soft: #3a201e;
+    --focus-ring: #4faf95;
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 1px rgba(0, 0, 0, 0.2);
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg: #141814;
+  --surface: #1d2420;
+  --surface-sunken: #232b26;
+  --border: #333d36;
+  --text: #e9ece7;
+  --text-muted: #9aa79e;
+  --accent: #4faf95;
+  --accent-strong: #7bcab3;
+  --accent-soft: #1d3831;
+  --status-open: #e0a030;
+  --status-open-soft: #3a2f18;
+  --status-closed: #4faf95;
+  --status-closed-soft: #1d3831;
+  --danger: #e5766e;
+  --danger-soft: #3a201e;
+  --focus-ring: #4faf95;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}

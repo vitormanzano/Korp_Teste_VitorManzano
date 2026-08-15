@@ -1,0 +1,32 @@
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.pill::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.pill-open {
+  background: var(--status-open-soft);
+  color: var(--status-open);
+}
+
+.pill-closed {
+  background: var(--status-closed-soft);
+  color: var(--status-closed);
+}
+
+.pill-danger {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
