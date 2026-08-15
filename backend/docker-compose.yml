@@ -1,0 +1,30 @@
+services:
+  estoque-db:
+    image: postgres:16
+    container_name: estoque-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: estoque
+      POSTGRES_PASSWORD: estoque
+      POSTGRES_DB: estoque_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - estoque-db-data:/var/lib/postgresql/data
+
+  faturamento-db:
+    image: postgres:16
+    container_name: faturamento-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: faturamento
+      POSTGRES_PASSWORD: faturamento
+      POSTGRES_DB: faturamento_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - faturamento-db-data:/var/lib/postgresql/data
+
+volumes:
+  estoque-db-data:
+  faturamento-db-data:
