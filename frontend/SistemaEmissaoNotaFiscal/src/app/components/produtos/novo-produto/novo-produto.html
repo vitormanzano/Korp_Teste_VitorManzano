@@ -1,0 +1,20 @@
+<app-card title="Novo Produto">
+  <form class="field-grid">
+    <div class="field">
+      <label for="codigo">Código</label>
+      <input id="codigo" type="text" placeholder="COD-1005" required />
+    </div>
+    <div class="field">
+      <label for="descricao">Descrição</label>
+      <input id="descricao" type="text" placeholder="Nome do produto" required />
+    </div>
+    <div class="field">
+      <label for="saldo">Saldo inicial</label>
+      <input id="saldo" type="number" min="0" placeholder="0" required />
+    </div>
+  </form>
+  <div class="form-actions">
+    <button type="button" class="btn btn-secondary">Limpar</button>
+    <button type="submit" class="btn btn-primary">Salvar produto</button>
+  </div>
+</app-card>
