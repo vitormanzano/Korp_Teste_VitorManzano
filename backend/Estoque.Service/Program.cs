@@ -1,5 +1,6 @@
 using Estoque.Service.Data;
 using Estoque.Service.Repositories;
+using Estoque.Service.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<EstoqueDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
+builder.Services.AddScoped<IProdutoService, ProdutoService>();
 
 const string FrontendCorsPolicy = "Frontend";
 builder.Services.AddCors(options =>
