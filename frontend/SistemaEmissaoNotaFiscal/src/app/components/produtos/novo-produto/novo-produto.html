@@ -1,20 +1,57 @@
 <app-card title="Novo Produto">
-  <form class="field-grid">
+  <form class="field-grid" [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="field">
       <label for="codigo">Código</label>
-      <input id="codigo" type="text" placeholder="COD-1005" required />
+      <input id="codigo" type="text" placeholder="COD-1005" required formControlName="codigo" />
     </div>
     <div class="field">
       <label for="descricao">Descrição</label>
-      <input id="descricao" type="text" placeholder="Nome do produto" required />
+      <input
+        id="descricao"
+        type="text"
+        placeholder="Nome do produto"
+        required
+        formControlName="descricao"
+      />
     </div>
     <div class="field">
       <label for="saldo">Saldo inicial</label>
-      <input id="saldo" type="number" min="0" placeholder="0" required />
+      <input
+        id="saldo"
+        type="number"
+        min="0"
+        placeholder="0"
+        required
+        formControlName="saldoInicial"
+      />
+    </div>
+    @if (errorMsg()) {
+      <div class="alert">
+        <div>
+          <strong>Falha ao salvar produto</strong>
+          <p>{{ errorMsg() }}</p>
+        </div>
+      </div>
+    }
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" [disabled]="saving()" (click)="reset()">
+        Limpar
+      </button>
+      <button
+        type="submit"
+        class="btn"
+        [class.btn-primary]="!saving()"
+        [class.btn-loading]="saving()"
+        [disabled]="form.invalid || saving()"
+      >
+        @if (saving()) {
+          <span class="spinner"></span>
+          Salvando…
+        } @else {
+          Salvar produto
+        }
+      </button>
     </div>
   </form>
-  <div class="form-actions">
-    <button type="button" class="btn btn-secondary">Limpar</button>
-    <button type="submit" class="btn btn-primary">Salvar produto</button>
-  </div>
 </app-card>

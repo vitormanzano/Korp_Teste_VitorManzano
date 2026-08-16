@@ -72,6 +72,59 @@
   color: var(--accent-strong);
 }
 
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.btn-loading {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  cursor: progress;
+}
+
+.spinner {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-strong);
+  border-top-color: transparent;
+  animation: spin 0.7s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.alert {
+  display: flex;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--danger);
+  background: var(--danger-soft);
+  color: var(--danger);
+  align-items: flex-start;
+}
+
+.alert strong {
+  color: var(--text);
+}
+
+.alert p {
+  margin: 2px 0 0;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
 @media (max-width: 640px) {
   .field-grid {
     grid-template-columns: 1fr;

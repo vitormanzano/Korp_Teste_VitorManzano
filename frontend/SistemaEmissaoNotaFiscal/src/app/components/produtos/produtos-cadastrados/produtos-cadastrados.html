@@ -1,0 +1,52 @@
+<section class="card">
+  <div class="card-header">
+    <h2>Produtos cadastrados</h2>
+    <span class="hint">{{ produtos().length }} produtos</span>
+  </div>
+
+  @if (loading()) {
+    <div class="card-body">
+      <p class="hint">Carregando produtos…</p>
+    </div>
+  } @else if (errorMsg()) {
+    <div class="card-body">
+      <div class="alert">
+        <div>
+          <strong>Falha ao carregar produtos</strong>
+          <p>{{ errorMsg() }}</p>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Descrição</th>
+            <th class="num">Saldo</th>
+            <th>Situação</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (produto of produtos(); track produto.codigo) {
+            <tr>
+              <td class="mono">{{ produto.codigo }}</td>
+              <td>{{ produto.descricao }}</td>
+              <td class="num">{{ produto.saldo }}</td>
+              <td>
+                @if (statusFor(produto.saldo); as situacao) {
+                  <app-pill [variant]="situacao.variant" [label]="situacao.label" />
+                }
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="empty">Nenhum produto cadastrado ainda.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>
