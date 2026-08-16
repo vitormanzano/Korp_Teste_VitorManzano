@@ -3,6 +3,6 @@
     title="Produtos"
     description="Cadastre produtos para uso posterior em notas fiscais. O saldo é atualizado automaticamente a cada impressão de nota."
   />
-  <app-novo-produto />
-  <app-produtos-cadastrados />
+  <app-novo-produto (produtoCriado)="produtosCadastrados.carregar()" />
+  <app-produtos-cadastrados #produtosCadastrados />
 </app-page-shell>

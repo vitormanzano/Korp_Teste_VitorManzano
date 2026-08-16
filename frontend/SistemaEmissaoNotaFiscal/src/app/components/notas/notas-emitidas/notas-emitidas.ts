@@ -18,6 +18,12 @@ export class NotasEmitidas implements OnInit {
   falhaImpressao = signal<{ numero: string; motivo: string } | null>(null);
 
   ngOnInit(): void {
+    this.carregar();
+  }
+
+  carregar(): void {
+    this.loading.set(true);
+    this.errorMsg.set(null);
     this.notasService.listar().subscribe({
       next: (notas) => {
         this.notas.set(notas);

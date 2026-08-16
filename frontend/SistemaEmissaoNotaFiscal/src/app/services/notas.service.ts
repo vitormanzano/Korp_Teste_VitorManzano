@@ -17,7 +17,7 @@ export interface Nota {
 @Service()
 export class NotasService {
   private http = inject(HttpClient);
-  private baseUrl = '';
+  private baseUrl = 'http://localhost:5186/notas';
 
   listar(): Observable<Nota[]> {
     return this.http.get<Nota[]>(this.baseUrl);

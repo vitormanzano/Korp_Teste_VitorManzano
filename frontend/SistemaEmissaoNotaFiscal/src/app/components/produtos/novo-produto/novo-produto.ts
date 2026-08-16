@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, output, signal } from '@angular/core';
 import { Card } from '../../shared/card/card';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { debounceTime, finalize } from 'rxjs';
@@ -23,6 +23,7 @@ export class NovoProduto implements OnInit {
   private produtosService = inject(ProdutosService);
   saving = signal(false);
   errorMsg = signal<string | null>(null);
+  produtoCriado = output<void>();
 
   private destroyRef = inject(DestroyRef);
   form = new FormGroup({
@@ -52,7 +53,10 @@ export class NovoProduto implements OnInit {
       .criar(this.form.getRawValue())
       .pipe(finalize(() => this.saving.set(false)))
       .subscribe({
-        next: () => this.reset(),
+        next: () => {
+          this.reset();
+          this.produtoCriado.emit();
+        },
         error: (err: HttpErrorResponse) =>
           this.errorMsg.set('Falha ao salvar produto. Tente novamente'),
       });

@@ -18,6 +18,12 @@ export class ProdutosCadastrados implements OnInit {
   errorMsg = signal<string | null>(null);
 
   ngOnInit(): void {
+    this.carregar();
+  }
+
+  carregar(): void {
+    this.loading.set(true);
+    this.errorMsg.set(null);
     this.produtosService.listar().subscribe({
       next: (produtos) => {
         this.produtos.set(produtos);

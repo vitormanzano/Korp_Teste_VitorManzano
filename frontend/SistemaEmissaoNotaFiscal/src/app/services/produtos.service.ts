@@ -11,7 +11,7 @@ export interface Produto {
 @Service()
 export class ProdutosService {
   private http = inject(HttpClient);
-  private baseUrl = '';
+  private baseUrl = 'http://localhost:5285/produtos';
 
   criar(produto: Omit<Produto, 'saldo'> & { saldoInicial: number }): Observable<Produto> {
     return this.http.post<Produto>(this.baseUrl, produto);

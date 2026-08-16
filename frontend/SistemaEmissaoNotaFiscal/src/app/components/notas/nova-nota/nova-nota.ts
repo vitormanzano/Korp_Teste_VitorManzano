@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { Pill } from '../../shared/pill/pill';
@@ -26,6 +26,7 @@ export class NovaNota implements OnInit {
   notaCriada = signal<Nota | null>(null);
   saving = signal(false);
   errorMsg = signal<string | null>(null);
+  notaFiscalCriada = output<void>();
 
   itemForm = new FormGroup({
     codigo: new FormControl('', { validators: [Validators.required], nonNullable: true }),
@@ -83,6 +84,7 @@ export class NovaNota implements OnInit {
         next: (nota) => {
           this.notaCriada.set(nota);
           this.itens.set([]);
+          this.notaFiscalCriada.emit();
         },
         error: () =>
           this.errorMsg.set(
