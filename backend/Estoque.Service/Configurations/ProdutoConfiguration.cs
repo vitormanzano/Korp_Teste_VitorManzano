@@ -28,5 +28,10 @@ public class ProdutoConfiguration : IEntityTypeConfiguration<Produto>
             .IsUnique();
 
         builder.ToTable(t => t.HasCheckConstraint("CK_Produto_Saldo_NaoNegativo", "\"Saldo\" >= 0"));
+
+        builder.Property<uint>("Version")
+            .IsRowVersion()
+            .HasColumnName("xmin")
+            .HasColumnType("xid");
     }
 }

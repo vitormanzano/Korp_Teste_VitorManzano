@@ -63,5 +63,9 @@ public class ProdutosController(IProdutoService produtoService) : ControllerBase
         {
             return Conflict(new { mensagem = ex.Message, codigo = ex.Codigo });
         }
+        catch (ConcorrenciaException ex)
+        {
+            return Conflict(new { mensagem = ex.Message });
+        }
     }
 }

@@ -17,4 +17,7 @@ public interface IProdutoRepository
     Task AdicionarAsync(Produto produto, CancellationToken cancellationToken = default);
 
     Task<int> SalvarAsync(CancellationToken cancellationToken = default);
+
+    // Descarta entidades rastreadas, pra forçar releitura do banco após conflito de concorrência.
+    void LimparRastreamento();
 }

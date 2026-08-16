@@ -2,6 +2,7 @@ using Estoque.Service.Dtos;
 using Estoque.Service.Exceptions;
 using Estoque.Service.Models;
 using Estoque.Service.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Estoque.Service.Services;
 
@@ -47,32 +48,50 @@ public class ProdutoService(IProdutoRepository repository) : IProdutoService
         return new ProdutoResponse(produto.Codigo, produto.Descricao, produto.Saldo);
     }
 
+    private const int MaxTentativasConcorrencia = 3;
+
     public async Task DebitarAsync(IEnumerable<ItemDebito> itens, CancellationToken cancellationToken = default)
     {
         var itensList = itens.ToList();
         var codigos = itensList.Select(i => i.Codigo).ToList();
 
-        var produtos = await repository.ObterPorCodigosAsync(codigos, cancellationToken);
-        var produtosPorCodigo = produtos.ToDictionary(p => p.Codigo);
-
-        foreach (var item in itensList)
+        for (var tentativa = 1; tentativa <= MaxTentativasConcorrencia; tentativa++)
         {
-            if (!produtosPorCodigo.TryGetValue(item.Codigo, out var produto))
+            var produtos = await repository.ObterPorCodigosAsync(codigos, cancellationToken);
+            var produtosPorCodigo = produtos.ToDictionary(p => p.Codigo);
+
+            foreach (var item in itensList)
             {
-                throw new ProdutoNaoEncontradoException(item.Codigo);
+                if (!produtosPorCodigo.TryGetValue(item.Codigo, out var produto))
+                {
+                    throw new ProdutoNaoEncontradoException(item.Codigo);
+                }
+
+                if (produto.Saldo < item.Quantidade)
+                {
+                    throw new SaldoInsuficienteException(item.Codigo, produto.Saldo, item.Quantidade);
+                }
             }
 
-            if (produto.Saldo < item.Quantidade)
+            foreach (var item in itensList)
             {
-                throw new SaldoInsuficienteException(item.Codigo, produto.Saldo, item.Quantidade);
+                produtosPorCodigo[item.Codigo].Saldo -= item.Quantidade;
+            }
+
+            try
+            {
+                await repository.SalvarAsync(cancellationToken);
+                return;
+            }
+            catch (DbUpdateConcurrencyException) when (tentativa < MaxTentativasConcorrencia)
+            {
+                // Outra requisição debitou o mesmo produto entre a leitura e o save (xmin mudou).
+                // Descarta o rastreamento e tenta de novo lendo o saldo atual, se não sobrar saldo
+                // suficiente na releitura, cai no SaldoInsuficienteException normalmente.
+                repository.LimparRastreamento();
             }
         }
 
-        foreach (var item in itensList)
-        {
-            produtosPorCodigo[item.Codigo].Saldo -= item.Quantidade;
-        }
-
-        await repository.SalvarAsync(cancellationToken);
+        throw new ConcorrenciaException();
     }
 }

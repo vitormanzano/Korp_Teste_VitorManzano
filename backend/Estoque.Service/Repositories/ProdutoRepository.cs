@@ -43,4 +43,9 @@ public class ProdutoRepository(EstoqueDbContext context) : IProdutoRepository
     {
         return context.SaveChangesAsync(cancellationToken);
     }
+
+    public void LimparRastreamento()
+    {
+        context.ChangeTracker.Clear();
+    }
 }
