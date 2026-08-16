@@ -1,0 +1,77 @@
+<section class="card">
+  <div class="card-header">
+    <h2>Notas emitidas</h2>
+    <span class="hint">{{ notas().length }} notas</span>
+  </div>
+
+  @if (falhaImpressao(); as falha) {
+    <div class="card-body" style="padding-bottom: 0">
+      <div class="alert">
+        <div>
+          <strong>Falha ao imprimir {{ falha.numero }}</strong>
+          <p>{{ falha.motivo }}</p>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (loading()) {
+    <div class="card-body">
+      <p class="hint">Carregando notas…</p>
+    </div>
+  } @else if (errorMsg()) {
+    <div class="card-body">
+      <div class="alert">
+        <div>
+          <strong>Falha ao carregar notas</strong>
+          <p>{{ errorMsg() }}</p>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Número</th>
+            <th>Status</th>
+            <th class="num">Itens</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (nota of notas(); track nota.numero) {
+            <tr>
+              <td class="mono">{{ nota.numero }}</td>
+              <td><app-pill [variant]="statusVariant(nota.status)" [label]="nota.status" /></td>
+              <td class="num">{{ nota.itens.length }}</td>
+              <td class="num">
+                @if (nota.status === 'Fechada') {
+                  <button type="button" class="btn btn-secondary" disabled>Impressa</button>
+                } @else if (imprimindo() === nota.numero) {
+                  <button type="button" class="btn btn-loading" disabled>
+                    <span class="spinner"></span>
+                    Processando
+                  </button>
+                } @else {
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    [disabled]="!!imprimindo()"
+                    (click)="imprimir(nota)"
+                  >
+                    Imprimir
+                  </button>
+                }
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="empty">Nenhuma nota fiscal emitida ainda.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

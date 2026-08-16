@@ -1,0 +1,91 @@
+<section class="card">
+  <div class="card-header">
+    <h2>Nova nota fiscal</h2>
+  </div>
+
+  <div class="inline-meta">
+    @if (notaCriada(); as nota) {
+      <span class="badge-number">{{ nota.numero }}</span>
+      <app-pill variant="open" label="Aberta" />
+    } @else {
+      <span class="badge-number badge-pending">Número gerado ao salvar</span>
+    }
+  </div>
+
+  <div class="card-body">
+    <form [formGroup]="itemForm" (ngSubmit)="adicionarItem()">
+      <div class="add-item-row">
+        <div class="field">
+          <label for="produto">Produto</label>
+          <select id="produto" formControlName="codigo">
+            <option value="" disabled>Selecione um produto</option>
+            @for (produto of produtosDisponiveis(); track produto.codigo) {
+              <option [value]="produto.codigo">{{ produto.codigo }} — {{ produto.descricao }}</option>
+            }
+          </select>
+        </div>
+        <div class="field">
+          <label for="quantidade">Quantidade</label>
+          <input id="quantidade" type="number" min="1" formControlName="quantidade" />
+        </div>
+        <button type="submit" class="btn btn-secondary">Adicionar item</button>
+      </div>
+    </form>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th class="num">Quantidade</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of itens(); track item.codigo) {
+            <tr>
+              <td>{{ item.descricao }}</td>
+              <td class="num">{{ item.quantidade }}</td>
+              <td class="num">
+                <button type="button" class="btn btn-secondary" (click)="removerItem(item.codigo)">
+                  Remover
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="3" class="empty">Nenhum item adicionado ainda.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (errorMsg()) {
+      <div class="alert">
+        <div>
+          <strong>Falha ao criar nota fiscal</strong>
+          <p>{{ errorMsg() }}</p>
+        </div>
+      </div>
+    }
+
+    <div class="form-actions">
+      <button
+        type="button"
+        class="btn"
+        [class.btn-primary]="!saving()"
+        [class.btn-loading]="saving()"
+        [disabled]="saving()"
+        (click)="criarNota()"
+      >
+        @if (saving()) {
+          <span class="spinner"></span>
+          Criando…
+        } @else {
+          Criar nota fiscal
+        }
+      </button>
+    </div>
+  </div>
+</section>

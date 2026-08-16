@@ -4,6 +4,11 @@ import { Notas } from './components/notas/notas/notas';
 
 export const routes: Routes = [
   {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'produtos',
+  },
+  {
     path: 'produtos',
     component: Produtos,
   },
