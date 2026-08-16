@@ -16,6 +16,15 @@ public class ProdutoService(IProdutoRepository repository) : IProdutoService
             .ToList();
     }
 
+    public async Task<ProdutoResponse?> ObterPorCodigoAsync(
+        string codigo,
+        CancellationToken cancellationToken = default)
+    {
+        var produto = await repository.ObterPorCodigoAsync(codigo, cancellationToken);
+
+        return produto is null ? null : new ProdutoResponse(produto.Codigo, produto.Descricao, produto.Saldo);
+    }
+
     public async Task<ProdutoResponse> CriarAsync(
         CriarProdutoRequest request,
         CancellationToken cancellationToken = default)

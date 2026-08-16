@@ -6,6 +6,8 @@ public interface IProdutoService
 {
     Task<IReadOnlyList<ProdutoResponse>> ListarAsync(CancellationToken cancellationToken = default);
 
+    Task<ProdutoResponse?> ObterPorCodigoAsync(string codigo, CancellationToken cancellationToken = default);
+
     Task<ProdutoResponse> CriarAsync(CriarProdutoRequest request, CancellationToken cancellationToken = default);
 
     Task DebitarAsync(IEnumerable<ItemDebito> itens, CancellationToken cancellationToken = default);
