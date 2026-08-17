@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, output, signal } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { Pill } from '../../shared/pill/pill';
@@ -86,9 +87,10 @@ export class NovaNota implements OnInit {
           this.itens.set([]);
           this.notaFiscalCriada.emit();
         },
-        error: () =>
+        error: (err: HttpErrorResponse) =>
           this.errorMsg.set(
-            'Serviço de Faturamento indisponível no momento. Tente novamente em instantes.',
+            err.error?.mensagem ??
+              'Serviço de Faturamento indisponível no momento. Tente novamente em instantes.',
           ),
       });
   }

@@ -58,7 +58,9 @@ export class NovoProduto implements OnInit {
           this.produtoCriado.emit();
         },
         error: (err: HttpErrorResponse) =>
-          this.errorMsg.set('Falha ao salvar produto. Tente novamente'),
+          this.errorMsg.set(
+            err.error?.mensagem ?? 'Falha ao salvar produto. Tente novamente.',
+          ),
       });
   }
 
