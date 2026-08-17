@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Pill, PillVariant } from '../../shared/pill/pill';
 import { Nota, NotasService } from '../../../services/notas.service';
 
@@ -54,11 +55,13 @@ export class NotasEmitidas implements OnInit {
         );
         this.imprimindo.set(null);
       },
-      error: () => {
+      error: (erro: HttpErrorResponse) => {
+        const mensagem = erro.error?.mensagem;
         this.falhaImpressao.set({
           numero: nota.numero,
-          motivo:
-            'Serviço de estoque indisponível no momento. A nota permanece Aberta — nenhum saldo foi debitado. Tente novamente em instantes.',
+          motivo: mensagem
+            ? `${mensagem} A nota permanece Aberta — nenhum saldo foi debitado.`
+            : 'Serviço de estoque indisponível no momento. A nota permanece Aberta — nenhum saldo foi debitado. Tente novamente em instantes.',
         });
         this.imprimindo.set(null);
       },
